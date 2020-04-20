@@ -1,6 +1,6 @@
 # fullstack_course
 
-Here you can find my task to the fullstack course i took online from helinski university
+Here you can find my task to the fullstack course i took online from University of Helsinki.
 
 * part0
   * 1.4 - https://fullstack-exampleapp.herokuapp.com/notes diagram after cliking 'submit' botten.
