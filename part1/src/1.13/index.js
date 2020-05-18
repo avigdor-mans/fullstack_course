@@ -8,7 +8,7 @@ const App = (props) => {
   /*const random = ()=>((Math.random()*10)%5).toFixed(0)*/
   const [points,setPoints] = useState(Array.apply(null, new Array(props.anecdotes.length)).map(Number.prototype.valueOf,0))
   const addVote = (num)=>{
-    const copy= points
+    const copy= points.concat([])
     copy[num]+=1
     setPoints(copy)
     
@@ -17,11 +17,8 @@ const App = (props) => {
     <div>
       <P text={props.anecdotes[selected]} />
       <P text={'has '+points[selected]+' votes'} />
-
       <Button fun={addVote} val={selected} text="vote" />
       <Button fun={setSelected} val={()=>((Math.random()*10)%5).toFixed(0)} text="next anecdote" />
-      {/*<button onClick={()=>addVote(selected)} >vote</button>
-      <button onClick={()=> setSelected(random())}>next anecdote</button>*/}
     </div>
   )
 }

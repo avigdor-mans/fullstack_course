@@ -15,11 +15,12 @@ const App = (props) => {
   /*const random = ()=>((Math.random()*10)%5).toFixed(0)*/
   const [points,setPoints] = useState(Array.apply(null, new Array(props.anecdotes.length)).map(Number.prototype.valueOf,0))
   const addVote = (num)=>{
-    const copy= points
+    const copy= points.concat([])
     copy[num]+=1
-    setPoints(copy)
-    
+    setPoints(copy)    
   }
+
+ 
   return (
     <div>
       <H1 text="Anecdote of the day" />
