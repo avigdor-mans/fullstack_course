@@ -11,11 +11,22 @@ const App = () => {
   const [ newNumber, setNumber ] = useState('')
   const [ newFilter, setFilter ] = useState('') 
   const [ msg, setMsg ] = useState(null)
+  const [ msgStyle, setMSgStyle ] = useState('')
 
   useEffect(() => {
     contactService.getAll()
     .then(contacts => setPersons(contacts.sort((a, b) => a.name > b.name ? 1 : -1)))
   },[])
+  const setColor = (color) =>
+    setMSgStyle({
+      color: color,
+      background: 'lightgrey',
+      fontSize: 20,
+      borderStyle: 'solid',
+      borderRadius: 5,
+      padding: 10,
+      marginBottom: 10,
+    })
 
   const addPerson = (person)=>{
     person.preventDefault()
@@ -25,6 +36,7 @@ const App = () => {
       contactService.addContact(tmpPerson)
       .then(newContact =>{
         setPersons(persons.concat(newContact).sort((a, b) => a.name > b.name ? 1 : -1))
+        setColor('green')
         setMsg(`Added ${newName}`)
         setTimeout(() => {
           setMsg(null)
@@ -40,6 +52,7 @@ const App = () => {
         contactService.changeNumber(existsPerson[0].id, { ...existsPerson[0], number:newNumber})
         .then(contact => {
           setPersons(persons.map((person)=>person.id!==contact.id ? person : contact).sort((a, b) => a.name > b.name ? 1 : -1))
+          setColor('green')
           setMsg(`${contact.name} was update with a new number`)
           setTimeout(() => {
           setMsg(null)
@@ -71,10 +84,19 @@ const App = () => {
       contactService.deleteContact(person.id)
       .then(name=>{
         setPersons(persons.filter((contact) => contact.id !== person.id).sort((a, b) => a.name > b.name ? 1 : -1))
+        setColor('green')
         setMsg(`${person.name} was deleted`)
         setTimeout(() => {
           setMsg(null)
         }, 5000)
+      })
+      .catch(error => {
+        setColor('red')
+        setMsg(`Information of ${person.name} has already removed from server`)
+        setTimeout(() => {
+          setMsg(null)
+        }, 5000)
+        setPersons(persons.filter(p => p.id !== person.id))
       })
     }
   }
@@ -82,7 +104,7 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
-      <Msg msg={msg} />
+      <Msg msg={msg} style={msgStyle} />
       <form>
         <div>
           <Filter text="filter shown with" val={newFilter} handler={handleNewFilter} />

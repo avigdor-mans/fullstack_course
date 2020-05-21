@@ -25,40 +25,45 @@ const App = () => {
   useEffect(()=>{
     console.log('effect2')
     axios
-      .get(`http://api.weatherstack.com/current?access_key=${process.env.REACT_APP_API_KEY}&query=${params.query}`)
+      .get(`http://api.weatherstack.com/current`,{params})
       .then(response => {
-        
         console.log('promise fulfilled2')
         setWeather(response.data)
-      })
-},[params])
+      })},[params])
+
   const handleNewFilter = (name)=>{
+    name.preventDefault()
     setFilter(name.target.value)
   }
+
   const handleShow = (countryToShow)=>{
     if (countryToShow!==''){
-    
-    if (country===''){
-      setToShow(!toShow)
-    }
-    if(country.name===countryToShow.name){
-      setToShow(!toShow)
+      if (country===''){
+        setToShow(!toShow)
+      }
+      if(country.name===countryToShow.name){
+        setToShow(!toShow)
+        setCountry('')
+      }
+      else{
+        setCountry(countryToShow)
+      }
+        handleParams(countryToShow.capital)
+      } 
+    else{
       setCountry('')
-    }else{
-      setCountry(countryToShow)
+      setToShow(false)
     }
-    handleParams(countryToShow.capital)
-  } 
-  else{
-    setCountry('')
-    setToShow(false)
-  }
 
   }
   const show = ()=>{
     return (<div><Name key={country.name} country={country} weather={weather} /></div>)
   }
-  const handleParams = (capital)=>setParams({access_key: process.env.REACT_APP_API_KEY , query:capital})
+
+  const handleParams = (capital)=>{
+    setParams({access_key: process.env.REACT_APP_API_KEY , query:capital})
+  }
+
   return (
     <div>
       <form>
