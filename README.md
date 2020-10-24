@@ -55,8 +55,8 @@ Here you can find my task to the fullstack course i took online from University 
     - Token authentication.
 
     Exercises:
-      * Blogs FrontEnd&BackEnd
-      * Tests
+      * Blog list backend
+      * BackEnd tests
 
 * part 5
 
@@ -67,8 +67,9 @@ Here you can find my task to the fullstack course i took online from University 
     - End to end -testing.
 
       Exercises:
-        * Blogs FrontEnd&BackEnd
-        * Tests
+        * Blog list frontend
+        * Frontend tests
+        * E2E tests
 
 * part 6
 

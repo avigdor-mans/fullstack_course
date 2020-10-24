@@ -1,6 +1,6 @@
 import React, { useEffect ,useState } from 'react'
 import Filter from './components/Filter'
-import Countries from './components/Countreis'
+import Countries from './components/Countries'
 import axios from 'axios'
 import Name from './components/Name'
 import Weather from './components/Weather'
