@@ -74,11 +74,22 @@ Here you can find my task to the fullstack course i took online from University 
 * part 6
 
   Topics:
-    - Flux-architecture and Redux
-    - Many reducers
-    - Communicating with server in a redux application
-    - connect
+    - Flux-architecture and Redux.
+    - Many reducers.
+    - Communicating with server in a redux application.
+    - connect.
 
   Exercises:
     * Unicafe using Redux
     * Anecdotes using Redux
+
+* part 7
+
+  Topics:
+    - React-router.
+    - Custom hooks.
+    - More about styles.
+    - Webpack.
+    - Class components, Miscellaneous.
+    - Exercises: extending the bloglist.
+
