@@ -1,5 +1,6 @@
-import React, {useState, useEffect} from 'react'
+import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import { useHistory } from 'react-router-dom'
 import {setNotification} from '../reducers/msgReducer'
 import {userLogout, userLogin} from '../reducers/userReducer'
 
@@ -8,6 +9,7 @@ const Login = () => {
   const [password, setPassword] = useState('')
   const dispatch = useDispatch()
   const user = useSelector(state => state.user)
+  const history = useHistory()
 
   const handleLogin = async (event) => {
     event.preventDefault()
@@ -16,6 +18,7 @@ const Login = () => {
       dispatch(setNotification(`Welcome ${user.name}`, 'green'))
       setUsername('')
       setPassword('')
+      history.push('/blogs')    
     } catch (exception){
       dispatch(setNotification(exception.response, 'red'))
     }
@@ -26,6 +29,7 @@ const Login = () => {
     dispatch(userLogout())
     setUsername('')
     setPassword('')
+    history.push('/')    
   }
 
   if (user!==null){

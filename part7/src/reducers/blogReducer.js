@@ -5,7 +5,7 @@ const sortBlogs = (blogs) => blogs.sort((blogA, blogB) => blogB.likes-blogA.like
 export const initBlogs = () =>{
     return async dispatch => {
         const blogs = await blogService.getAll()
-        dispatch({type: 'INIT', data: blogs})
+        dispatch({type: 'INITBLOGS', data: blogs})
     }
 }
 export const addBlog = (blogToAdd) => {
@@ -29,9 +29,13 @@ export const likeBlog = (blogToUpdate, userId) => {
     }
 }
 
+export const addCommet = (comment,blog, userId) => {
+
+}
+
 const blogReducer = (state = [], action) => {
     switch (action.type) {
-        case 'INIT' :
+        case 'INITBLOGS' :
             return sortBlogs(action.data)
         case 'ADD' :
             return sortBlogs(state.concat(action.data))

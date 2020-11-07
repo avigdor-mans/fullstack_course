@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
-import {addBlog} from '../reducers/blogReducer'
-import {setNotification} from '../reducers/msgReducer'
+import {addBlog} from '../../reducers/blogReducer'
+import {setNotification} from '../../reducers/msgReducer'
 import PropTypes from 'prop-types'
 
 const AdBlog = React.forwardRef((props,ref) => {
