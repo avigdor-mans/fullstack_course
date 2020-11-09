@@ -1,8 +1,9 @@
 import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useHistory } from 'react-router-dom'
-import {setNotification} from '../reducers/msgReducer'
-import {userLogout, userLogin} from '../reducers/userReducer'
+import {setNotification} from '../../reducers/msgReducer'
+import {userLogout, userLogin} from '../../reducers/userReducer'
+import Msg from '../Msg'
 
 const Login = () => {
   const [username, setUsername] = useState('')
@@ -24,18 +25,10 @@ const Login = () => {
     }
   }
 
-  const handleLogout = () => {
-    dispatch(setNotification(`goodbye ${user.name}`, 'green'))
-    dispatch(userLogout())
-    setUsername('')
-    setPassword('')
-    history.push('/')    
-  }
-
-  if (user!==null){
-    return (<p>{user ? user.name : ''} logged-in <button onClick={handleLogout} >logout</button></p>)
-  }
   return (
+    <div>
+    <h2>Log in to application</h2>
+    <Msg />
     <form onSubmit={handleLogin}>
       <div>
         username
@@ -58,7 +51,8 @@ const Login = () => {
         />
       </div>
       <button id="login-button" type="submit">login</button>
-    </form>)
+    </form>
+    </div>)
 }
 
 export default Login

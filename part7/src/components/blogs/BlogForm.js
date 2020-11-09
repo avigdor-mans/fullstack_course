@@ -1,14 +1,13 @@
 import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
-import { Link, useHistory } from 'react-router-dom'
 import {addCommet, likeBlog, deleteBlog} from '../../reducers/blogReducer'
 import {setNotification} from '../../reducers/msgReducer'
+import blogs from '../../services/blogs'
 
-const BlogForm = (blog) => {
+const BlogForm = ({blog}) => {
     const [comment, setComment] = useState('')
     // user = useSelector(state=>state.user)
     const dispatch = useDispatch()
-    const history = useHistory()
     const blogStyle = {
         paddingTop: 10,
         paddingLeft: 2,
@@ -19,8 +18,7 @@ const BlogForm = (blog) => {
 
     const hendleLikes = async () => {
         try{
-          dispatch(likeBlog(blog, blog.user.id))
-          dispatch(setNotification(`now ${blog.title} have ${blog.likes+1} likes!`, 'green'))
+          dispatch(likeBlog(blog))
         }catch (exception){
           console.log(exception)
           dispatch(setNotification(exception.response, 'red'))
@@ -29,8 +27,7 @@ const BlogForm = (blog) => {
     
     const handleComment = () => {
         try{
-            dispatch(addCommet(comment, blog, blog.user.id))
-            dispatch(setNotification(`a comment is added to the blog ${blog.title}`))
+            dispatch(addCommet(comment, blog))
             setComment('')
         }catch (exception){
             console.log(exception)
@@ -42,16 +39,12 @@ const BlogForm = (blog) => {
     const handleDelete = async () => {
         if(window.confirm(`Remove blog ${blog.title} by ${blog.author}?`)){
           try{
-            console.log(blog)
-            dispatch(deleteBlog(blog.id))
-            dispatch(setNotification(`The blog ${blog.title} have been deleted`, 'green'))
+            dispatch(deleteBlog(blog))
           }catch (exception){
             dispatch(setNotification(exception.response.data.error, 'red'))
           }
-          history.push('/blogs')    
         }
     }
-    
     return(
         <div style={blogStyle} className='blog'>
             <a2>{`${blog.title} ${blog.author}`}</a2>
@@ -67,7 +60,6 @@ const BlogForm = (blog) => {
             </ul>
             <br/>
             <button id='delete' style={{ backgroundColor:'#4c6bf4' }} onClick={handleDelete} >delete</button>
-            <Link to='/blogs'><button>cancel</button></Link>
         </div>
     )    
 }

@@ -1,4 +1,5 @@
 import blogService from '../services/blogs'
+import setNotification from './msgReducer'
 
 const sortBlogs = (blogs) => blogs.sort((blogA, blogB) => blogB.likes-blogA.likes)
 
@@ -11,26 +12,35 @@ export const initBlogs = () =>{
 export const addBlog = (blogToAdd) => {
     return async dispatch => {
         const newBlog = await blogService.create(blogToAdd)
+        dispatch(setNotification(`a new blog ${newBlog.title} by ${newBlog.author} added`, 'green'))
         dispatch({ type: 'ADD', data: newBlog})
     }
 }
 
-export const deleteBlog = (id) => {
+export const deleteBlog = (blog) => {
     return async dispatch => {
-        await blogService.remove(id)
-        dispatch({ type: 'DELETE', data: id })
+        await blogService.remove(blog.id)
+        dispatch(setNotification(`The blog ${blog.title} have been deleted`, 'green'))
+        dispatch({ type: 'DELETE', data: blog.id })
     }
 }
 
-export const likeBlog = (blogToUpdate, userId) => {
+export const likeBlog = (blogToUpdate) => {
     return async dispatch => {
-        const updateBlog = await blogService.update(blogToUpdate, userId)
+        const tmpBlog = {...blogToUpdate, likes: blogToUpdate.likes+1}
+        const updateBlog = await blogService.update(tmpBlog, blogToUpdate.user.id)
+        dispatch(setNotification(`now ${updateBlog.title} have ${updateBlog.likes} likes!`, 'green'))
         dispatch({type: 'UPDATE', data: updateBlog})
     }
 }
 
-export const addCommet = (comment,blog, userId) => {
-
+export const addCommet = (comment,blogToUpdate) => {
+    return async dispatch => {
+        const tmpBlog = {...blogToUpdate, comments: blogToUpdate.comment.concat(comment)}
+        const updateBlog = await blogService.update(tmpBlog, blogToUpdate.user.id)
+        dispatch(setNotification(`the comment: ${comment} is added to the blog ${updateBlog.title}`))
+        dispatch({type: 'UPDATE', data: updateBlog})
+    }
 }
 
 const blogReducer = (state = [], action) => {

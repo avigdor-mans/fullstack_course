@@ -20,7 +20,6 @@ const AdBlog = React.forwardRef((props,ref) => {
     }
     try{
       dispatch(addBlog(newBlog))
-      dispatch(setNotification(`a new blog ${newBlog.title} by ${newBlog.author} added`, 'green'))
       setTitle('')
       setAuthor('')
       setUrl('')
@@ -65,6 +64,7 @@ const AdBlog = React.forwardRef((props,ref) => {
       </div>
       <button id="creat" type="submit">creat</button>
     </form>
+    <br/>
     </div>)
 })
 

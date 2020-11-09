@@ -1,15 +1,19 @@
+let toClear = null
+
 export const setNotification = (message, color) => {
     return dispatch => {
+      if(toClear)
+        clearTimeout(toClear)
       dispatch({ type:'disply', message:message, color: color })
-      setTimeout(() => {
+      toClear = setTimeout(() => {
         dispatch(removeNotification())
-      }, 10000)
+      }, 5000)
     } 
   }
   
   export const removeNotification = () => {
     return dispatch => {
-      dispatch({ type:'remove', message:'', color: ''})
+      dispatch({ type:'remove', message:'', color: 'white'})
     }
   }
 

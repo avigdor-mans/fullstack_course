@@ -15,7 +15,7 @@ export const initUsers = () => {
 }
 
 const userReducer = (state=[], action) =>{
-    console.log(action)
+    console.log('@@@@@@@@@',action)
     switch (action.type) {
         case 'GETUSERS' : 
             return state

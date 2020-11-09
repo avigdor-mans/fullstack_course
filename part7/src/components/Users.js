@@ -9,16 +9,7 @@ const Users = () => {
     return (
         <Router>
         <Switch>
-            <Route path='/users/:id'>
-                <a2>{user.name}</a2>
-                <a3>added blogs</a3>
-                <ul>
-                    {user.blogs(blogId=><li>{blogs.find(b=>b.is=blogId).title}</li>)}
-                </ul>
-                <Link to='/users'><button>cancel</button></Link>
-            </Route>
-
-            <Route path='/users'>
+        <Route path='/users'>
                 <a2>Users</a2>
                 <table>
                     <tr>
@@ -32,6 +23,16 @@ const Users = () => {
                         </tr>)}
                 </table>
             </Route>
+            <Route path='/users/:id'>
+                <a2>{user?user.name:null}</a2>
+                <a3>added blogs</a3>
+                <ul>
+                    {user.blogs(blogId=><li>{blogs.find(b=>b.is=blogId).title}</li>)}
+                </ul>
+                <Link to='/users'><button>cancel</button></Link>
+            </Route>
+
+           
         </Switch>
         </Router>
         )
