@@ -1,5 +1,5 @@
 import blogService from '../services/blogs'
-import setNotification from './msgReducer'
+import { setNotification } from './msgReducer'
 
 const sortBlogs = (blogs) => blogs.sort((blogA, blogB) => blogB.likes-blogA.likes)
 
@@ -27,8 +27,7 @@ export const deleteBlog = (blog) => {
 
 export const likeBlog = (blogToUpdate) => {
     return async dispatch => {
-        const tmpBlog = {...blogToUpdate, likes: blogToUpdate.likes+1}
-        const updateBlog = await blogService.update(tmpBlog, blogToUpdate.user.id)
+        const updateBlog = await blogService.update(blogToUpdate)
         dispatch(setNotification(`now ${updateBlog.title} have ${updateBlog.likes} likes!`, 'green'))
         dispatch({type: 'UPDATE', data: updateBlog})
     }
@@ -36,8 +35,8 @@ export const likeBlog = (blogToUpdate) => {
 
 export const addCommet = (comment,blogToUpdate) => {
     return async dispatch => {
-        const tmpBlog = {...blogToUpdate, comments: blogToUpdate.comment.concat(comment)}
-        const updateBlog = await blogService.update(tmpBlog, blogToUpdate.user.id)
+        const tmpBlog = {...blogToUpdate, comments: blogToUpdate.comments.concat(comment)}
+        const updateBlog = await blogService.update(tmpBlog)
         dispatch(setNotification(`the comment: ${comment} is added to the blog ${updateBlog.title}`))
         dispatch({type: 'UPDATE', data: updateBlog})
     }
@@ -52,7 +51,7 @@ const blogReducer = (state = [], action) => {
         case 'DELETE' :
             return sortBlogs(state.filter((b)=> b.id!==action.data))
         case 'UPDATE' :
-            return sortBlogs(state.map((b)=> b.id===action.data.id ? {...b, likes: b.likes+1} : b))
+            return sortBlogs(state.map((b)=> b.id===action.data.id ? action.data : b))
         default : return state
     }
 }

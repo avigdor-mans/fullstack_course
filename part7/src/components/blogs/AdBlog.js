@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import {addBlog} from '../../reducers/blogReducer'
 import {setNotification} from '../../reducers/msgReducer'
-import PropTypes from 'prop-types'
+import { Form, Button } from 'react-bootstrap'
 
 const AdBlog = React.forwardRef((props,ref) => {
   const [title, setTitle] = useState('')
@@ -29,47 +29,36 @@ const AdBlog = React.forwardRef((props,ref) => {
   }
 
   return (
-    <div className="formDiv" >
-    <form onSubmit={handleNewBlog}>
-      <h2>create new</h2>
-      <div>
-        title:
-        <input
-          id="title"
-          type="text"
-          value={title}
-          name="Title"
-          onChange={({ target }) => setTitle(target.value)}
-        />
-      </div>
-      <div>
-        author:
-        <input
-          id="author"
-          type="text"
-          value={author}
-          name="Author"
-          onChange={({ target }) => setAuthor(target.value)}
-        />
-      </div>
-      <div>
-        url:
-        <input
-          id="url"
-          type="text"
-          value={url}
-          name="Url"
-          onChange={({ target }) => setUrl(target.value)}
-        />
-      </div>
-      <button id="creat" type="submit">creat</button>
-    </form>
-    <br/>
-    </div>)
+    <Form onSubmit={handleNewBlog}>
+      <h3>create new blog</h3>
+      <Form.Group>
+        <Form.Label>title</Form.Label>
+        <Form.Control
+        type='text'
+        value={title}
+        onChange={({ target }) => setTitle(target.value)}
+         />
+      </Form.Group>
+
+      <Form.Group>
+        <Form.Label>author</Form.Label>
+        <Form.Control
+        type='text'
+        value={author}
+        onChange={({ target }) => setAuthor(target.value)}
+         />
+      </Form.Group>
+
+      <Form.Group>
+        <Form.Label>url</Form.Label>
+        <Form.Control
+        type='text'
+        value={url}
+        onChange={({ target }) => setUrl(target.value)}
+         />
+      </Form.Group>
+      <Button variant="primary" type="submit">Submit</Button>
+    </Form>)
 })
 
-AdBlog.propTypes = {
-  setBlogs: PropTypes.func.isRequired,
-  sortBlogs: PropTypes.func.isRequired,
-}
 export default AdBlog

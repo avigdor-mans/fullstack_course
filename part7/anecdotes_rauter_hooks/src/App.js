@@ -30,7 +30,6 @@ const AnecdoteList = ({ anecdotes }) => (
 const Anecdote = (props) => {
   const id = useParams().id
   const anecdote = props.anecdotes.find(a => a.id === id)
-  console.log(anecdote)
   return (
     <div>
       <h2>{anecdote.content}</h2>

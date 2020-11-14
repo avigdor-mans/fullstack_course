@@ -22,7 +22,6 @@ const useCountry = (name) => {
     async function fetchData(name) {
       try{
       const response = await axios.get(`https://restcountries.eu/rest/v2/name/${name}?fullText=true`)
-      console.log(response)
       setCountry(response.data[0])
       setFound(true)
       }catch(error) {
@@ -48,7 +47,6 @@ const Country = ({ country }) => {
       </div>
     )
   }
-  console.log(country.data)
   return (
     <div>
       <h3>{country.data.name} </h3>
