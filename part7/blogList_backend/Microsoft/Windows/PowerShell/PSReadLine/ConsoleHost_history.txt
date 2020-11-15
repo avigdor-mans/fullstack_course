@@ -1,0 +1,7 @@
+npm run test
+npm test -- tests/note_api.test.js
+npm test -- tests/blog_api.test.js
+npm test -- -t ''
+npm test -- tests/blog_api.test.js
+npm test -- -t 'all blogs are returned'
+npm test -- tests/blog_api.test.js
