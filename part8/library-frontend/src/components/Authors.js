@@ -1,20 +1,22 @@
 import React, { useEffect, useState } from 'react'
+import { useQuery, useMutation } from '@apollo/client'
 import {ALL_AUTHORS, EDIT_AUTHOR} from '../queries'
 
+
 const Authors = (props) => {
+  const authors = useQuery(ALL_AUTHORS)
   const [ name, setName ] = useState('')
   const [ year, setYear ] = useState('')
-  const authors = useQuery(ALL_AUTHORS)
+  
   const [ editYear, result ] =  useMutation(EDIT_AUTHOR,{
     refetchQueries: [ {query: ALL_AUTHORS} ],
     onError: (error) => {
-      console.log(error)
+      console.table(error)
     }
-    })
-    
+  })
   useEffect(() => {
     if (result.data && result.data.editAuthor === null) {
-      setError('person not found')
+      console.log('authot not found')
     }
   }, [result.data])
 
@@ -26,7 +28,7 @@ const Authors = (props) => {
     return <div>loading...</div>
   }
 
-  const esitAuthor = async (e)=>{
+  const editAuthor = async (e)=>{
     e.preventDefault()
     editYear({variables: {name, year: parseInt(year,10)}})
     setName('')
@@ -39,9 +41,7 @@ const Authors = (props) => {
       <table>
         <tbody>
           <tr>
-            <th>
-            name
-            </th>
+            <th></th>
             <th>
               born
             </th>
@@ -59,9 +59,10 @@ const Authors = (props) => {
         </tbody>
       </table>
 
+      {props.token?
       <div>
         <h3>Set birthyear</h3>
-        <form onSubmit={esitAuthor}>
+        <form onSubmit={editAuthor}>
         <div>
           name
           <select
@@ -76,12 +77,17 @@ const Authors = (props) => {
         <div>
           born
           <input
+            type='number'
             value={year}
             onChange={(e)=>setYear(e.target.value)} />
+          <br />
+          <button type="submit">update</button>
         </div>
         </form>
       </div>
+      : null }
     </div>
+     
     
   )
 }

@@ -1,27 +1,38 @@
-import React, { useState } from 'react'
-import {ALL_AUTHORS, ALL_BOOKS, CREATE_BOOK} from '../queries'
+import React, { useState, useEffect } from 'react'
+import { useMutation } from '@apollo/client'
+import {CREATE_BOOK, ALL_AUTHORS, ALL_BOOKS} from '../queries'
+
 const NewBook = (props) => {
   const [title, setTitle] = useState('')
   const [author, setAuhtor] = useState('')
   const [published, setPublished] = useState('')
   const [genre, setGenre] = useState('')
-  const [c, setGenres] = useState([])
-  const [ createBook ] = useMutation(CREATE_BOOK,
-    {refetchQueries: [ { query: ALL_BOOKS }, { query: ALL_AUTHORS } ],
+  const [genres , setGenres] = useState([])
+
+  const [ createBook, result ] = useMutation(CREATE_BOOK,{
+    refetchQueries: [ { query: ALL_AUTHORS } ],
     onError: (error) => {
-      console.log(error)
+      console.warn(error)
+    },
+    update: (store, response) => {
+      props.updateCacheWith(response.data.addPerson)
     }
   })
   
+  useEffect(() => {
+    if (result.data && result.data.addBokk === null) {
+      console.log('book not added')
+    }
+  }, [result.data])
+
   if (!props.show) {
     return null
   }
 
   const submit = async (event) => {
     event.preventDefault()
-    createPerson({  variables: { title, author, published, genres } })
 
-    console.log('add book...')
+    createBook({variables:{ title, author, published: parseInt(published, 10), genres}})
 
     setTitle('')
     setPublished('')
@@ -37,6 +48,7 @@ const NewBook = (props) => {
 
   return (
     <div>
+    <br/>
       <form onSubmit={submit}>
         <div>
           title
