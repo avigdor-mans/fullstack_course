@@ -56,7 +56,7 @@ test('a valid blog can be added', async () => {
     const myUser = await api
       .post('/api/login')
       .send({username: "test10",
-      password: "10101010"})
+      password: ""})
 
   await api
     .post('/api/blogs')
@@ -82,7 +82,7 @@ test('likes property is missing from the request, it will default to the value 0
     const myUser = await api
       .post('/api/login')
       .send({username: "test10",
-      password: "10101010"})
+      password: ""})
 
   await api
     .post('/api/blogs')
@@ -104,7 +104,7 @@ test('blog without title or url is not added', async () => {
   const myUser = await api
       .post('/api/login')
       .send({username: "test10",
-      password: "10101010"})
+      password: ""})
 
   await api
     .post('/api/blogs')
