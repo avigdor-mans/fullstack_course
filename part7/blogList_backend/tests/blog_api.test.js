@@ -56,7 +56,7 @@ test('a valid blog can be added', async () => {
     const myUser = await api
       .post('/api/login')
       .send({username: "test10",
-      password: "10101010"})
+      password: ""})
 
   await api
     .post('/api/blogs')
