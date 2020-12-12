@@ -1,10 +1,8 @@
-import patientsData from '../data/patients.json';
-import { Patient } from '../types';
+import patientsData from '../data/patients';
+import { Patient, PublicPatient } from '../types';
 
-const patients: Omit<Patient, 'ssn'>[] = patientsData as Omit<Patient, 'ssn'>[];
-
-const getEntries = (): Omit<Patient, 'ssn'>[] => {
-  return patients.map(({id,name,occupation,gender,dateOfBirth})=>({
+const getEntries = (): PublicPatient[] => {
+  return patientsData.map(({id,name,occupation,gender,dateOfBirth})=>({
     id,
     name,
     occupation,
@@ -13,18 +11,30 @@ const getEntries = (): Omit<Patient, 'ssn'>[] => {
   }));  
 };
 
+const getEntrie = (id:string): Patient | undefined => {
+  
+  return patientsData.find((p:PublicPatient)=>p.id===id);
+};
+
 const addEntry = (entry:Omit<Patient, 'id'>): Patient => {
   
   const newPatientEntry = {
-    id: (Math.max(...patients.map(d => parseInt(d.id))) + 1).toString(),
+    id: (Math.max(...patientsData.map(d => parseInt(d.id))) + 1).toString(),
     ...entry
-  }
+  };
 
-  patients.push(newPatientEntry);
+  patientsData.push(newPatientEntry);
   return newPatientEntry;
+};
+
+const addEntryToPatient = (entry:Patient): Patient => {
+  patientsData.map((p) => p.id===entry.id ? entry : p);
+  return entry;
 };
 
 export default {
   getEntries,
-  addEntry
+  getEntrie,
+  addEntry,
+  addEntryToPatient
 };
