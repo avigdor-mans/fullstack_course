@@ -31,9 +31,6 @@ const isSickLeave = (sickLeave) => {
     return (sickLeave.startDate && isDate(sickLeave.startDate) && sickLeave.endDate && isDate(sickLeave.endDate));
 };
 const isHealthCheckRating = (healthCheckRating) => {
-    console.log(healthCheckRating);
-    console.log(typeof healthCheckRating);
-    console.log(Number(healthCheckRating) in types_1.HealthCheckRating);
     return (!isNaN(Number(healthCheckRating)) && (Number(healthCheckRating) in types_1.HealthCheckRating));
 };
 //patientType

@@ -24,7 +24,7 @@ const PatientPage: React.FC = () => {
 
 
   const submitNewEntry = async (values: Values) => {
-    console.log(values.diagnosisCodes);
+    console.log(values);
     switch (values.type) {
       case "HealthCheck":
         try {
@@ -41,9 +41,11 @@ const PatientPage: React.FC = () => {
           );
           dispatch(addEntry(updatePatient));
           closeModal();
+          break;
         } catch (e) {
           console.error(e.response.data);
           setError(e.response.data.error);
+          break;
         }
       case "OccupationalHealthcare":
         try {
@@ -64,16 +66,18 @@ const PatientPage: React.FC = () => {
           );
           dispatch(addEntry(updatePatient));
           closeModal();
+          break;
         } catch (e) {
           console.error(e.response.data);
           setError(e.response.data.error);
+          break;
         }
       case "Hospital":
         try {
           const { data: updatePatient } = await axios.post<Entry>(
             `${apiBaseUrl}patients/${id}/entries`,
             {
-              type: values.type,
+              type: "Hospital",
               description: values.description,
               date: values.date,
               specialist: values.specialist,
@@ -86,9 +90,11 @@ const PatientPage: React.FC = () => {
           );
           dispatch(addEntry(updatePatient));
           closeModal();
+          break;
         } catch (e) {
           console.error(e.response.data);
           setError(e.response.data.error);
+          break;
         }
       default:
         break;

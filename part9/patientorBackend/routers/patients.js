@@ -21,6 +21,7 @@ router.get('/:id', (req, res) => {
 });
 router.post('/:id/entries', (req, res) => {
     const patient = patientsService_1.default.getEntrie(req.params.id);
+    console.log(req.body);
     if (patient) {
         try {
             switch (req.body.type) {
@@ -32,14 +33,14 @@ router.post('/:id/entries', (req, res) => {
                     res.json(newHealthCheckEntry);
                     break;
                 case "Hospital":
-                    const newHospitalEntry = Object.assign(Object.assign({}, utils_1.default.toNewHealthCheckEntry(req.body)), { id: patient.entries.length > 0 ? (Math.max(...patient.entries.map(e => parseInt(e.id))) + 1).toString()
+                    const newHospitalEntry = Object.assign(Object.assign({}, utils_1.default.toNewHospitalEntry(req.body)), { id: patient.entries.length > 0 ? (Math.max(...patient.entries.map(e => parseInt(e.id))) + 1).toString()
                             : '1' });
                     patient.entries.push(newHospitalEntry);
                     patientsService_1.default.addEntryToPatient(patient);
                     res.json(newHospitalEntry);
                     break;
                 case "OccupationalHealthcare":
-                    const newOccupationalHealthcareEntry = Object.assign(Object.assign({}, utils_1.default.toNewHealthCheckEntry(req.body)), { id: patient.entries.length > 0 ? (Math.max(...patient.entries.map(e => parseInt(e.id))) + 1).toString()
+                    const newOccupationalHealthcareEntry = Object.assign(Object.assign({}, utils_1.default.toNewOccupationalHealthcareEntry(req.body)), { id: patient.entries.length > 0 ? (Math.max(...patient.entries.map(e => parseInt(e.id))) + 1).toString()
                             : '1' });
                     patient.entries.push(newOccupationalHealthcareEntry);
                     patientsService_1.default.addEntryToPatient(patient);

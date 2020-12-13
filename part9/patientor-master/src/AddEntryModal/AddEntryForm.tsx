@@ -2,7 +2,7 @@ import React from "react";
 import { Grid, Button } from "semantic-ui-react";
 import { Field, Formik, Form } from "formik";
 import { HealthCheckRating } from "../types";
-import { TypeOption, EntryType, TextField, DiagnosisSelection, Values, HealthCheckRatingOption, TypeSelectField, HealthCheckRatingSelectField } from "./FormField";
+import { TypeOption, EntryType, TextField, DiagnosisSelection, Values, HealthCheckRatingOption, TypeSelectField, HealthCheckRatingSelectField, HealthCheckRatingSelectFieldProps, TypeSelectFieldProps } from "./FormField";
 import { useStateValue } from "../state";
 
 interface Props {
@@ -22,24 +22,33 @@ const healthCheckRatingOptions: HealthCheckRatingOption[] = [
   { value: HealthCheckRating.LowRisk, label: 1 },
   { value: HealthCheckRating.Healthy, label: 0 },
 ];
-
+type AllProps = HealthCheckRatingSelectFieldProps | TypeSelectFieldProps;
 const AddEntryForm: React.FC<Props> = ({ onSubmit, onCancel }) => {
 
   const [{ diagnosis }] = useStateValue();
-  const [type, setType] = React.useState<EntryType>(EntryType.Health);
-
-  const corectField = () => {
-    switch (type) {
+  const [form, setForm] = React.useState<JSX.Element|null>(
+    <HealthCheckRatingSelectField
+      label="HealthCheckRating"
+      name="healthCheckRating"
+      options={healthCheckRatingOptions}
+    />
+  );
+  const [type, setType] = React.useState(EntryType.Health)
+  
+  const corectField = (e:{ target: { value: EntryType; }; }, c:CustomEvent) => {
+    c.preventDefault();
+    setType(e.target.value);
+    switch (e.target.value) {
       case "HealthCheck":
-        return (
+        setForm (
         <HealthCheckRatingSelectField
           label="HealthCheckRating"
           name="healthCheckRating"
           options={healthCheckRatingOptions}
-          onChange={setType}
         />);
+        break;
       case "Hospital":
-        return (
+        setForm (
           <div>
             <Field
               label="DischargeDate"
@@ -55,9 +64,16 @@ const AddEntryForm: React.FC<Props> = ({ onSubmit, onCancel }) => {
             />   
           </div>
         );
+        break;
       case "OccupationalHealthcare":
-        return (
+        setForm (
           <div>
+            <Field
+              label="EmployerName"
+              placeholder="employerName"
+              name="employerName"
+              component={TextField}
+            />
             <Field
               label="StartDate"
               placeholder="YYYY-MM-DD"
@@ -72,15 +88,16 @@ const AddEntryForm: React.FC<Props> = ({ onSubmit, onCancel }) => {
             />   
           </div>
         );
+        break;
       default:
-        return null;
+        setForm(null);
     }
   }
 
   return(
     <Formik
       initialValues={{
-        type: EntryType.Occup,
+        type: type,
         date: "",
         specialist: "",
         diagnosisCodes: [],
@@ -92,6 +109,7 @@ const AddEntryForm: React.FC<Props> = ({ onSubmit, onCancel }) => {
         endDate: "",
         healthCheckRating: HealthCheckRating.Healthy
       }}
+      validateOnChange
       onSubmit={onSubmit}
       validate={values => {
         const requiredError = "Field is required";
@@ -120,11 +138,12 @@ const AddEntryForm: React.FC<Props> = ({ onSubmit, onCancel }) => {
       {({ isValid, dirty, setFieldValue, setFieldTouched  }) => {
         return(
           <Form className="form ui">
+            
             <TypeSelectField
               label="Type"
               name="type"
               options={typeOptions}
-              onChange={setType}
+              onChange={corectField}
             />
             <Field
               label="Date"
@@ -149,7 +168,7 @@ const AddEntryForm: React.FC<Props> = ({ onSubmit, onCancel }) => {
               name="description"
               component={TextField}
             />
-            {corectField()}
+            {form}
             <Grid>
               <Grid.Column floated="left" width={5}>
                 <Button type="button" onClick={onCancel} color="red">

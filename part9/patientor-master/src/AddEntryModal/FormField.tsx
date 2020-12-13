@@ -35,11 +35,11 @@ export type TypeOption = {
 export type EntryForm = Omit<HospitalEntry, 'id'> | Omit<OccupationalHealthcareEntry, 'id'> | Omit<HospitalEntry, 'id'>;
 
 // props for select field component
-type TypeSelectFieldProps = {
+export type TypeSelectFieldProps = {
   name: string;
   label: string;
   options: TypeOption[];
-  onChange: (x:EntryType) => void;
+  onChange: (x:{ target: { value: EntryType; }; }, y:CustomEvent) => void;
 };
 
 export const TypeSelectField: React.FC<TypeSelectFieldProps> = ({
@@ -50,7 +50,9 @@ export const TypeSelectField: React.FC<TypeSelectFieldProps> = ({
 }: TypeSelectFieldProps) => (
   <Form.Field>
     <label>{label}</label>
-    <Field as="select" name={name} className="ui dropdown" onChange={(e: { target: { value: EntryType; }; })=> onChange(e.target.value)}>
+    <Field as="select" name={name} className="ui dropdown" 
+    onClick={(e: { target: { value: EntryType; }; })=> onChange(e, new CustomEvent("nothing"))}
+    >
       {options.map(option => (
         <option key={option.value} value={option.value}>
           {option.label || option.value}
@@ -60,11 +62,10 @@ export const TypeSelectField: React.FC<TypeSelectFieldProps> = ({
   </Form.Field>
 );
 
-type HealthCheckRatingSelectFieldProps = {
+export type HealthCheckRatingSelectFieldProps = {
   name: string;
   label: string;
   options: HealthCheckRatingOption[];
-  onChange: (x:EntryType) => void;
 };
 
 export const HealthCheckRatingSelectField: React.FC<HealthCheckRatingSelectFieldProps> = ({

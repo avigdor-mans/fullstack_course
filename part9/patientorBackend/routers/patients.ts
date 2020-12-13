@@ -19,6 +19,7 @@ router.get('/:id', (req, res) => {
 
 router.post('/:id/entries', (req, res) => {
   const patient = patientsService.getEntrie(req.params.id);
+  console.log(req.body);
   if(patient){
     try{
       switch (req.body.type) {
@@ -34,7 +35,7 @@ router.post('/:id/entries', (req, res) => {
           break;
         case "Hospital":
           const newHospitalEntry = {
-            ...typeCheck.toNewHealthCheckEntry(req.body),
+            ...typeCheck.toNewHospitalEntry(req.body),
             id: patient.entries.length > 0 ? (Math.max(...patient.entries.map(e => parseInt(e.id))) + 1).toString()
             : '1'
           };
@@ -44,7 +45,7 @@ router.post('/:id/entries', (req, res) => {
           break;
         case "OccupationalHealthcare":
           const newOccupationalHealthcareEntry = {
-            ...typeCheck.toNewHealthCheckEntry(req.body),
+            ...typeCheck.toNewOccupationalHealthcareEntry(req.body),
             id: patient.entries.length > 0 ? (Math.max(...patient.entries.map(e => parseInt(e.id))) + 1).toString()
             : '1'
           };

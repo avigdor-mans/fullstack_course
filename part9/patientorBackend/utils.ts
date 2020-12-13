@@ -41,9 +41,6 @@ const isSickLeave = (sickLeave:any): sickLeave is SickLeave => {
 };
 
 const isHealthCheckRating = (healthCheckRating:any): healthCheckRating is HealthCheckRating => {
-  console.log(healthCheckRating);
-  console.log(typeof healthCheckRating);
-  console.log(Number(healthCheckRating) in HealthCheckRating);
   return (!isNaN(Number(healthCheckRating)) && (Number(healthCheckRating) in HealthCheckRating));
 };
 
